@@ -68,19 +68,23 @@ class TextAnalytics {
   }
 
   /**
-   * @param $text
+   * @param string|array $text
    *
    * @return string
    */
   private function buildData($text) {
-    $data = [
-      'documents' => [
-        [
-          'id' => '1',
+    if (!is_array($text)) {
+      $text = [
+        1 => [
           'text' => $text,
         ],
-      ],
-    ];
+      ];
+    }
+    $data = ['documents' => []];
+    foreach ($text as $id => $document) {
+      $document['id'] = $id;
+      $data['documents'][] = $document;
+    }
 
     return Json::encode($data);
   }
